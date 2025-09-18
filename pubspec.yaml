@@ -45,6 +45,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/
+    - assets/apk/
     - assets/drcv.pdf
     - assets/Brochure.pdf
     - assets/png/
