@@ -1,0 +1,53 @@
+name: ramchin_technologies_pvt_ltd
+description: "A new Flutter project."
+
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.8.1
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.8
+  font_awesome_flutter: ^10.9.1
+  url_launcher: ^6.3.2
+  photo_view: ^0.15.0
+  visibility_detector: ^0.4.0+2
+  simple_icons: ^14.6.1
+  http: ^1.5.0
+  js: ^0.7.2
+  razorpay_web: ^3.0.0
+  fluttertoast: ^8.2.12
+  another_flushbar: ^1.12.31
+  shared_preferences: ^2.5.3
+  image_picker: ^1.2.0
+  file_picker: ^10.3.2
+  intl: ^0.20.2
+  dio: ^5.9.0
+  path_provider: ^2.1.5
+  video_player: ^2.10.0
+  transparent_image: ^2.0.1
+  syncfusion_flutter_pdfviewer: ^31.1.19
+  flutter_spinkit: ^5.2.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^5.0.0
+
+flutter:
+
+  uses-material-design: true
+  assets:
+    - assets/
+    - assets/drcv.pdf
+    - assets/Brochure.pdf
+    - assets/png/
+    - assets/member/
+    - assets/compress/
+    - assets/screenV.mp4
