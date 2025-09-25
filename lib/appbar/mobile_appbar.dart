@@ -382,6 +382,7 @@ class _ResponsiveAppBarState extends State<ResponsiveAppBar>
     "Contact Us", // 7
     "About Us", // 8
     "Admin", // 9
+    "Add Data", // 10
   ];
 
   @override
@@ -474,8 +475,10 @@ class _ResponsiveAppBarState extends State<ResponsiveAppBar>
           actions: [
             PopupMenuButton<int>(
               onSelected: (value) {
-                setState(() => _isOuterMenu = true);
-                _handleMenuSelection(value);
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  setState(() => _isOuterMenu = true);
+                  widget.onTabSelected(value);
+                });
               },
               itemBuilder: (context) {
                 final items = <PopupMenuEntry<int>>[];
@@ -483,8 +486,10 @@ class _ResponsiveAppBarState extends State<ResponsiveAppBar>
                   if (i == 7) continue;
                   items.add(PopupMenuItem(value: i, child: Text(_tabs[i])));
                 }
-                if (!AdminLoginPage.isLoggedIn) {
+                if (AdminLoginPage.isLoggedIn == false) {
                   items.add(PopupMenuItem(value: 9, child: Text(_tabs[9])));
+                } else {
+                  items.add(PopupMenuItem(value: 10, child: Text(_tabs[10])));
                 }
                 return items;
               },
@@ -545,9 +550,14 @@ class _ResponsiveAppBarState extends State<ResponsiveAppBar>
                   const PopupMenuItem(value: 6, child: Text("Gallery")),
                   const PopupMenuItem(value: 8, child: Text("About Us")),
                 ];
-                if (!AdminLoginPage.isLoggedIn) {
+
+                if (AdminLoginPage.isLoggedIn == false) {
                   menuItem.add(
                     const PopupMenuItem(value: 9, child: Text("Admin")),
+                  );
+                } else {
+                  menuItem.add(
+                    const PopupMenuItem(value: 10, child: Text("Add Data")),
                   );
                 }
                 return menuItem;
@@ -604,9 +614,13 @@ class _ResponsiveAppBarState extends State<ResponsiveAppBar>
                 final List<PopupMenuEntry<int>> menuItems = [
                   const PopupMenuItem(value: 8, child: Text("About Us")),
                 ];
-                if (!AdminLoginPage.isLoggedIn) {
+                if (AdminLoginPage.isLoggedIn == false) {
                   menuItems.add(
                     const PopupMenuItem(value: 9, child: Text("Admin")),
+                  );
+                } else {
+                  menuItems.add(
+                    const PopupMenuItem(value: 10, child: Text("Add Data")),
                   );
                 }
                 return menuItems;

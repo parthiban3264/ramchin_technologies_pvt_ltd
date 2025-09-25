@@ -25,7 +25,7 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
     Flushbar(
       message: msg,
       maxWidth: 230,
-      duration: const Duration(seconds: 5),
+      duration: const Duration(seconds: 2),
       backgroundColor: success ? Colors.green : Colors.red,
       margin: const EdgeInsets.all(8),
       borderRadius: BorderRadius.circular(8),
