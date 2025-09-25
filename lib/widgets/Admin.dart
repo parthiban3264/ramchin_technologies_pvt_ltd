@@ -38,7 +38,6 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
     ).show(context);
   }
 
-  // ✅ Handle login
   Future<void> _adminLogin() async {
     if (!_formKey.currentState!.validate()) return;
 
@@ -52,23 +51,16 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
     setState(() => _isLoading = false);
 
     if (token != null) {
-      // Save token locally
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString("admin_token", token);
 
       if (mounted) {
         showFlushBar(context, "Login successful", success: true);
         setState(() => AdminLoginPage.isLoggedIn = true);
-
-        // ✅ Direct go to AddDataPageStack (index = 10)
-        widget.onTabSelected(10);
+        widget.onTabSelected(10); // Navigate to admin dashboard
       }
-
-      print("JWT Token: $token");
     } else {
-      if (mounted) {
-        showFlushBar(context, "Failed to Login", success: false);
-      }
+      if (mounted) showFlushBar(context, "Failed to Login", success: false);
     }
   }
 
@@ -77,17 +69,17 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
     final screenWidth = MediaQuery.of(context).size.width;
     final cardWidth = screenWidth < 600 ? screenWidth * 0.9 : 400.0;
 
-    return SingleChildScrollView(
-      child: Container(
-        height: 500,
-
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Color(0xFFACE0F9), Color(0xFFBFFCC6)],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+    return Container(
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          colors: [Color(0xFFACE0F9), Color(0xFFBFFCC6)],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
         ),
+      ),
+      child: SingleChildScrollView(
+        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+        padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 16),
         child: Center(
           child: ClipRRect(
             borderRadius: BorderRadius.circular(20),
@@ -97,14 +89,12 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
                 width: cardWidth,
                 padding: const EdgeInsets.all(24),
                 decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.15),
+                  color: Colors.white.withAlpha(200),
                   borderRadius: BorderRadius.circular(20),
-                  border: Border.all(
-                    color: Colors.white.withValues(alpha: 0.3),
-                  ),
+                  border: Border.all(color: Colors.white.withAlpha(100)),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.2),
+                      color: Colors.black.withAlpha(50),
                       blurRadius: 12,
                       offset: const Offset(0, 6),
                     ),
@@ -118,7 +108,7 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
                       const Icon(
                         Icons.admin_panel_settings,
                         size: 60,
-                        color: Colors.white,
+                        color: Colors.blueAccent,
                       ),
                       const SizedBox(height: 16),
                       const Text(
@@ -126,31 +116,28 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
                         style: TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                          letterSpacing: 1.2,
+                          color: Colors.black87,
                         ),
                       ),
                       const SizedBox(height: 30),
 
-                      // ✅ Email field
+                      // Email
                       TextFormField(
                         controller: _emailController,
                         keyboardType: TextInputType.emailAddress,
                         decoration: InputDecoration(
                           prefixIcon: const Icon(
                             Icons.email,
-                            color: Colors.white,
+                            color: Colors.blueAccent,
                           ),
                           hintText: "Email",
-                          hintStyle: const TextStyle(color: Colors.white70),
                           filled: true,
-                          fillColor: Colors.white.withValues(alpha: 0.1),
+                          fillColor: Colors.white.withAlpha(230),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
                             borderSide: BorderSide.none,
                           ),
                         ),
-                        style: const TextStyle(color: Colors.white),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return "Please enter your email";
@@ -163,19 +150,18 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
                       ),
                       const SizedBox(height: 16),
 
-                      // ✅ Password field
+                      // Password
                       TextFormField(
                         controller: _passwordController,
                         obscureText: _obscurePassword,
                         decoration: InputDecoration(
                           prefixIcon: const Icon(
                             Icons.lock,
-                            color: Colors.white,
+                            color: Colors.blueAccent,
                           ),
                           hintText: "Password",
-                          hintStyle: const TextStyle(color: Colors.white70),
                           filled: true,
-                          fillColor: Colors.white.withValues(alpha: 0.1),
+                          fillColor: Colors.white.withAlpha(230),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
                             borderSide: BorderSide.none,
@@ -185,16 +171,15 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
                               _obscurePassword
                                   ? Icons.visibility_off
                                   : Icons.visibility,
-                              color: Colors.white,
+                              color: Colors.blueAccent,
                             ),
                             onPressed: () {
-                              setState(() {
-                                _obscurePassword = !_obscurePassword;
-                              });
+                              setState(
+                                () => _obscurePassword = !_obscurePassword,
+                              );
                             },
                           ),
                         ),
-                        style: const TextStyle(color: Colors.white),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return "Please enter your password";
@@ -207,23 +192,16 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
                       ),
                       const SizedBox(height: 24),
 
-                      // ✅ Login button
+                      // Login Button
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
                           onPressed: _isLoading ? null : _adminLogin,
                           style: ElevatedButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 20,
-                              horizontal: 15,
-                            ),
+                            padding: const EdgeInsets.symmetric(vertical: 16),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12),
                             ),
-                            backgroundColor: Colors.white.withValues(
-                              alpha: 0.2,
-                            ),
-                            elevation: 6,
                           ),
                           child: _isLoading
                               ? const CircularProgressIndicator(
@@ -234,7 +212,6 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
                                   "Login",
                                   style: TextStyle(
                                     fontSize: 16,
-                                    color: Colors.white,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -728,3 +705,61 @@ class _AdminTableState extends State<AdminTable> {
     );
   }
 }
+
+// class LoginPage extends StatefulWidget {
+//   @override
+//   _LoginPageState createState() => _LoginPageState();
+// }
+//
+// class _LoginPageState extends State<LoginPage> {
+//   final TextEditingController _usernameController = TextEditingController();
+//   final TextEditingController _passwordController = TextEditingController();
+//
+//   void _login() {
+//     String username = _usernameController.text;
+//     String password = _passwordController.text;
+//
+//     if (username == 'admin' && password == '1234') {
+//       ScaffoldMessenger.of(
+//         context,
+//       ).showSnackBar(SnackBar(content: Text('Login Successful!')));
+//     } else {
+//       ScaffoldMessenger.of(
+//         context,
+//       ).showSnackBar(SnackBar(content: Text('Invalid Username or Password')));
+//     }
+//   }
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(title: Text('Login Page')),
+//       body: Padding(
+//         padding: const EdgeInsets.all(16.0),
+//         child: Column(
+//           mainAxisAlignment: MainAxisAlignment.center,
+//           children: [
+//             TextField(
+//               controller: _usernameController,
+//               decoration: InputDecoration(
+//                 labelText: 'Username',
+//                 border: OutlineInputBorder(),
+//               ),
+//             ),
+//             SizedBox(height: 16),
+//             TextField(
+//               controller: _passwordController,
+//               decoration: InputDecoration(
+//                 labelText: 'Password',
+//                 border: OutlineInputBorder(),
+//               ),
+//               obscureText: true,
+//             ),
+//             SizedBox(height: 20),
+//             ElevatedButton(onPressed: _login, child: Text('Login')),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }

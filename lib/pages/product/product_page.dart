@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../widgets/Privacy.dart';
 import 'features_page.dart';
 import 'package:video_player/video_player.dart';
@@ -15,6 +17,20 @@ class _SchoolPageState extends State<SchoolPage>
     with SingleTickerProviderStateMixin {
   late AnimationController _textAnimationController;
   late Animation<Offset> _textSlideAnimation;
+  final String pdfPath = 'assets/ramchin_smart_school_manual.pdf';
+  // Make sure it's in web/assets
+
+  void _openPdf() async {
+    final url = Uri.base.resolve(pdfPath); // Web-friendly asset URL
+    if (await canLaunchUrl(url)) {
+      await launchUrl(
+        Uri.parse('/$pdfPath'),
+        mode: LaunchMode.externalApplication, // opens in new tab
+      );
+    } else {
+      print('Could not open PDF');
+    }
+  }
 
   @override
   void initState() {
@@ -164,6 +180,31 @@ class _SchoolPageState extends State<SchoolPage>
                     "Download For Ramchin Smart School App.",
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 20),
+                  ElevatedButton.icon(
+                    onPressed: _openPdf,
+                    icon: Icon(Icons.picture_as_pdf, color: Colors.white),
+                    label: Text(
+                      'Open User Manual',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 15,
+                        vertical: 14,
+                      ),
+                      backgroundColor: Colors.blue,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      elevation: 6,
+                      shadowColor: Colors.blueAccent,
+                    ),
                   ),
                   const SizedBox(height: 20),
 
@@ -617,7 +658,7 @@ class ApkDownloadButton extends StatelessWidget {
         elevation: 5, // Shadow effect
       ),
       child: const Text(
-        "TRY DEMO APK",
+        "Download for apk",
         style: TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.bold,
@@ -627,3 +668,13 @@ class ApkDownloadButton extends StatelessWidget {
     );
   }
 }
+
+// class PdfViewerPage extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(title: Text('User Manual PDF')),
+//       body: SfPdfViewer.asset('assets/ramchin_smart_school_manual.pdf'),
+//     );
+//   }
+// }

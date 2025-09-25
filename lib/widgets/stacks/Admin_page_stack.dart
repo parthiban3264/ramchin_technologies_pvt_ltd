@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../appbar/footer.dart';
 import '../Admin.dart';
 
 class AdminPageStack extends StatefulWidget {
@@ -13,6 +14,13 @@ class AdminPageStack extends StatefulWidget {
 class _AdminPageStackState extends State<AdminPageStack> {
   @override
   Widget build(BuildContext context) {
-    return AdminLoginPage(onTabSelected: widget.onTabSelected);
+    return SingleChildScrollView(
+      child: Container(
+        color: Colors.blue.shade50,
+        child: Column(
+          children: [AdminLoginPage(onTabSelected: widget.onTabSelected)],
+        ),
+      ),
+    );
   }
 }

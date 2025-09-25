@@ -1,6 +1,10 @@
 import 'package:ramchin_technologies_pvt_ltd/pages/product/product_page.dart';
 import 'package:flutter/material.dart';
 
+import '../BookingHall.dart';
+import '../HosppitalManagement.dart';
+import '../MoneyManager.dart';
+
 class ProductListPage extends StatefulWidget {
   const ProductListPage({Key? key}) : super(key: key);
 
@@ -12,7 +16,7 @@ class _ProductListPageState extends State<ProductListPage> {
   final List<AppCard> apps = [
     AppCard(
       app: AppItem(
-        'Ramchin Smart School',
+        "Ramchin's Smart School",
         'Track student attendance, manage records, and streamline classroom management.',
         Image.asset(
           'assets/loogo.jpg',
@@ -22,6 +26,45 @@ class _ProductListPageState extends State<ProductListPage> {
         ),
       ),
       destinationPage: const SchoolPage(),
+    ),
+    AppCard(
+      app: AppItem(
+        "Ramchin's Booking Hall",
+        'A hall booking app lets users easily find and reserve halls for any event.',
+        Image.asset(
+          'assets/logoor.png',
+          width: 40,
+          height: 40,
+          fit: BoxFit.cover,
+        ),
+      ),
+      destinationPage: const BookingHall(),
+    ),
+    AppCard(
+      app: AppItem(
+        "Ramchin's Money Manager", //FinTraX
+        'Money Manager is a smart app that helps users track income, expenses, and savings in real time.',
+        Image.asset(
+          'assets/logot.png',
+          width: 40,
+          height: 40,
+          fit: BoxFit.cover,
+        ),
+      ),
+      destinationPage: const MoneyManager(),
+    ),
+    AppCard(
+      app: AppItem(
+        "Ramchin's Hospital Management", //HospiTraX
+        'A hospital management system keeps medical records, appointments, and billing streamlined',
+        Image.asset(
+          'assets/logor.png',
+          width: 40,
+          height: 40,
+          fit: BoxFit.cover,
+        ),
+      ),
+      destinationPage: const HospitalManagement(),
     ),
     // Add more AppCards here if needed
   ];
@@ -151,6 +194,7 @@ class _ProductListPageState extends State<ProductListPage> {
   }
 
   Widget _leftSection({required bool isMobile}) {
+    final isMobiles = MediaQuery.of(context).size.width < 600;
     final headlineStyle = TextStyle(
       fontSize: isMobile ? 26 : 36,
       fontWeight: FontWeight.bold,
@@ -172,11 +216,13 @@ class _ProductListPageState extends State<ProductListPage> {
           style: headlineStyle,
         ),
         const SizedBox(height: 16),
-        Text(
-          "Streamline your workflow, save time, and scale smarter with our intuitive software platform. Designed to grow with your business while keeping your data safe and secure.",
-          style: normalTextStyle,
-        ),
-        const SizedBox(height: 30),
+        !isMobiles
+            ? Text(
+                "Streamline your workflow, save time, and scale smarter with our intuitive software platform. Designed to grow with your business while keeping your data safe and secure.",
+                style: normalTextStyle,
+              )
+            : Text(''),
+        (!isMobiles) ? const SizedBox(height: 30) : const SizedBox(height: 0),
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: const [

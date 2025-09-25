@@ -1,5 +1,5 @@
 name: ramchin_technologies_pvt_ltd
-description: "A new Flutter project."
+description: ""
 
 publish_to: 'none'
 
@@ -45,10 +45,16 @@ flutter:
   uses-material-design: true
   assets:
     - assets/
-    - assets/apk/
+    - assets/apk/ramchin_smart_school.apk
+    - assets/apk/ramchinsmartschool.apk
+    - assets/ramchin_smart_school_manual.pdf
     - assets/drcv.pdf
     - assets/Brochure.pdf
     - assets/png/
     - assets/member/
     - assets/compress/
     - assets/screenV.mp4
+    - assets/studentguide.mp4
+    - assets/staffguide.mp4
+    - assets/stafguide.mp4
+    - assets/adminguide.mp4

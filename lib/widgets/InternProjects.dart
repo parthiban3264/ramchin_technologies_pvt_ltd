@@ -676,7 +676,7 @@ class _MemberCardGridState extends State<MemberCardGrid>
       link: " ",
     ),
     MemberCard(
-      image: "assets/pmember/murali.jpeg",
+      image: "assets/member/murali.jpeg",
       name: "Murali K",
       project: "Coming Soon",
       link: "",

@@ -2,7 +2,9 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
-class TeamPage extends StatelessWidget {
+class TeamPage extends StatefulWidget {
+  TeamPage({super.key});
+
   final List<TeamMember> teamMembers = [
     TeamMember(
       name: "DR.C.VELAYUTHAM",
@@ -12,7 +14,7 @@ class TeamPage extends StatelessWidget {
           "DR.C.VELAYUTHAM is a creative and detail-oriented Architect specializing in innovative, sustainable, and functional design.",
       description: "Arjun has led multiple startups to success...",
       projects: [""],
-      experience: ["10+ years in leadership", "Ex-Google Manager"],
+      experience: [""],
       resumeUrl: "https://resume-link.com",
       reviews: [
         "Arjun transformed our business! – Client A",
@@ -23,10 +25,11 @@ class TeamPage extends StatelessWidget {
       name: "BALASUBRAMANIAN M",
       role: "TEAM LEADER",
       imageUrl: "assets/member/bala.jpg",
-      bio: "Flutter developer",
+      bio:
+          "Aspiring Full-Stack Developer skilled in Flutter, building cross-platform apps with powerful backend APIs.",
       description: "specializes in Flutter & Node.js...",
-      projects: ["https://github.com/priya", "https://portfolio.com"],
-      experience: ["5 years in full-stack dev", "Mobile app expert"],
+      projects: [""],
+      experience: [""],
       resumeUrl: "https://resume-priya.com",
       reviews: [
         "Amazing coding skills! – Client X",
@@ -35,12 +38,13 @@ class TeamPage extends StatelessWidget {
     ),
     TeamMember(
       name: "PARTHIBAN R",
-      role: "FLUTTER DEVELOPER",
-      imageUrl: "assets/member/parthi.jpg",
-      bio: "Flutter Developer.",
+      role: "SOFTWARE DEVELOPER",
+      imageUrl: "assets/member/parthi_11zon.jpg",
+      bio:
+          "Flutter Developer building cross-platform apps with backend APIs, aiming to grow as a full-stack developer.",
       description: "specializes in Flutter & Node.js...",
-      projects: ["https://github.com/priya", "https://portfolio.com"],
-      experience: ["5 years in full-stack dev", "Mobile app expert"],
+      projects: [""],
+      experience: [""],
       resumeUrl: "https://resume-priya.com",
       reviews: [
         "Amazing coding skills! – Client X",
@@ -49,12 +53,13 @@ class TeamPage extends StatelessWidget {
     ),
     TeamMember(
       name: "SHIVANI SHREE G",
-      role: "FLUTTER DEVELOPER",
+      role: "SOFTWARE DEVELOPER",
       imageUrl: "assets/member/shivani.jpeg",
-      bio: "Flutter Developer.",
-      description: "Priya specializes in Flutter & Node.js...",
-      projects: ["https://github.com/priya", "https://portfolio.com"],
-      experience: ["5 years in full-stack dev", "Mobile app expert"],
+      bio:
+          "Shivani Shree G – Flutter Developer creating cross-platform apps and full-stack solutions with modern tools for scalable, user-friendly applications.",
+      description: "specializes in Flutter & Node.js...",
+      projects: [""],
+      experience: [""],
       resumeUrl: "https://resume-priya.com",
       reviews: [
         "Amazing coding skills! – Client X",
@@ -63,19 +68,32 @@ class TeamPage extends StatelessWidget {
     ),
   ];
 
-  TeamPage({super.key});
+  @override
+  State<TeamPage> createState() => _TeamPageState();
+}
+
+class _TeamPageState extends State<TeamPage> {
+  @override
+  void initState() {
+    super.initState();
+    // Precache all team images for smooth loading
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      for (var member in widget.teamMembers) {
+        precacheImage(AssetImage(member.imageUrl), context);
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
 
-    final isMobile = screenWidth < 600; // phones
-    final isTablet = screenWidth >= 600 && screenWidth < 1024; // tablets
-    final isDesktop = screenWidth >= 1024; // laptops/monitors
+    final isMobile = screenWidth < 600;
+    final isTablet = screenWidth >= 600 && screenWidth < 1024;
+    final isDesktop = screenWidth >= 1024;
 
     return Scaffold(
       body: SingleChildScrollView(
-        // ✅ Scroll entire page
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -108,14 +126,12 @@ class TeamPage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 32),
-
-            // GridView inside scroll view
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 5.0),
               child: GridView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                itemCount: teamMembers.length,
+                itemCount: widget.teamMembers.length,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: isMobile
                       ? 1
@@ -129,11 +145,10 @@ class TeamPage extends StatelessWidget {
                   childAspectRatio: 1,
                 ),
                 itemBuilder: (context, index) {
-                  return TeamCard(member: teamMembers[index]);
+                  return TeamCard(member: widget.teamMembers[index]);
                 },
               ),
             ),
-
             const SizedBox(height: 20),
           ],
         ),
@@ -154,7 +169,6 @@ class TeamCard extends StatefulWidget {
 class _TeamCardState extends State<TeamCard> {
   bool _isHovered = false;
 
-  @override
   @override
   Widget build(BuildContext context) {
     final isMobile = MediaQuery.of(context).size.width < 600;
@@ -199,19 +213,16 @@ class _TeamCardState extends State<TeamCard> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              /// Avatar
               AnimatedContainer(
                 duration: const Duration(milliseconds: 300),
                 height: isMobile ? 90 : (_isHovered ? 0 : 90),
                 width: isMobile ? 90 : (_isHovered ? 0 : 90),
                 child: CircleAvatar(
                   radius: 45,
-                  backgroundImage: NetworkImage(widget.member.imageUrl),
+                  backgroundImage: AssetImage(widget.member.imageUrl),
                 ),
               ),
               const SizedBox(height: 16),
-
-              /// Name
               Text(
                 widget.member.name,
                 style: const TextStyle(
@@ -222,8 +233,6 @@ class _TeamCardState extends State<TeamCard> {
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 8),
-
-              /// Role
               AnimatedOpacity(
                 duration: const Duration(milliseconds: 300),
                 opacity: isMobile ? 1 : (_isHovered ? 0 : 1),
@@ -237,8 +246,6 @@ class _TeamCardState extends State<TeamCard> {
                   textAlign: TextAlign.center,
                 ),
               ),
-
-              /// Bio
               AnimatedOpacity(
                 duration: const Duration(milliseconds: 300),
                 opacity: isMobile ? 1 : (_isHovered ? 1 : 0),
@@ -255,7 +262,6 @@ class _TeamCardState extends State<TeamCard> {
                   ),
                 ),
               ),
-
               if (!isMobile && _isHovered) const SizedBox(height: 12),
               if (!isMobile && _isHovered)
                 AnimatedContainer(
@@ -274,7 +280,7 @@ class _TeamCardState extends State<TeamCard> {
       ),
     );
   }
-} //TeamDetailPage
+}
 
 class TeamDetailPage extends StatefulWidget {
   final dynamic member;
@@ -317,7 +323,6 @@ class _TeamDetailPageState extends State<TeamDetailPage>
       backgroundColor: Colors.grey.shade100,
       body: Stack(
         children: [
-          // Gradient header background
           Container(
             height: 250,
             decoration: BoxDecoration(
@@ -334,8 +339,6 @@ class _TeamDetailPageState extends State<TeamDetailPage>
               ),
             ),
           ),
-
-          // Content
           SingleChildScrollView(
             padding: const EdgeInsets.all(24),
             child: FadeTransition(
@@ -344,8 +347,6 @@ class _TeamDetailPageState extends State<TeamDetailPage>
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const SizedBox(height: 80),
-
-                  // Avatar with glow
                   Hero(
                     tag: member.name,
                     child: Container(
@@ -365,12 +366,11 @@ class _TeamDetailPageState extends State<TeamDetailPage>
                       ),
                       child: CircleAvatar(
                         radius: 70,
-                        backgroundImage: NetworkImage(member.imageUrl),
+                        backgroundImage: AssetImage(member.imageUrl),
                       ),
                     ),
                   ),
                   const SizedBox(height: 16),
-
                   Text(
                     member.name,
                     style: const TextStyle(
@@ -388,8 +388,6 @@ class _TeamDetailPageState extends State<TeamDetailPage>
                     ),
                   ),
                   const SizedBox(height: 30),
-
-                  // Details card
                   _buildGlassCard(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -397,11 +395,9 @@ class _TeamDetailPageState extends State<TeamDetailPage>
                         _sectionTitle("Bio", Icons.person),
                         Text(member.bio, style: _textStyle()),
                         const SizedBox(height: 20),
-
                         _sectionTitle("Description", Icons.info_outline),
                         Text(member.description, style: _textStyle()),
                         const SizedBox(height: 20),
-
                         _sectionTitle("Projects", Icons.work_outline),
                         Wrap(
                           spacing: 8,
@@ -410,12 +406,11 @@ class _TeamDetailPageState extends State<TeamDetailPage>
                               label: Text(p),
                               labelStyle: const TextStyle(color: Colors.white),
                               backgroundColor: roleColor,
-                              onPressed: () {}, // open project link
+                              onPressed: () {},
                             );
                           }).toList(),
                         ),
                         const SizedBox(height: 20),
-
                         _sectionTitle("Experience", Icons.timeline),
                         Wrap(
                           spacing: 8,
@@ -427,15 +422,14 @@ class _TeamDetailPageState extends State<TeamDetailPage>
                           }).toList(),
                         ),
                         const SizedBox(height: 20),
-
                         Center(
                           child: ElevatedButton.icon(
-                            onPressed: () {}, // open resume
-                            icon: Icon(
+                            onPressed: () {},
+                            icon: const Icon(
                               Icons.picture_as_pdf,
                               color: Colors.white,
                             ),
-                            label: Text(
+                            label: const Text(
                               "View Resume",
                               style: TextStyle(color: Colors.white),
                             ),
@@ -454,7 +448,6 @@ class _TeamDetailPageState extends State<TeamDetailPage>
                           ),
                         ),
                         const SizedBox(height: 20),
-
                         _sectionTitle("Client Reviews", Icons.reviews),
                         ...member.reviews.map(
                           (r) => Container(
@@ -502,8 +495,6 @@ class _TeamDetailPageState extends State<TeamDetailPage>
               ),
             ),
           ),
-
-          // Floating Back Button
           Positioned(
             top: 40,
             left: 16,

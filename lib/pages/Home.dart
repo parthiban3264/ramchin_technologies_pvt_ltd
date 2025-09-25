@@ -21,6 +21,7 @@ class HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // resizeToAvoidBottomInset: true,
       appBar: PreferredSize(
         preferredSize: Size(MediaQuery.sizeOf(context).width, 70),
         child: ResponsiveAppBar(
